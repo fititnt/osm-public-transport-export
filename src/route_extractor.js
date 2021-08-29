@@ -1,72 +1,69 @@
-const WayPartContainer = require('./way_part_container')
 const extractor_error = require('./extractor_error')
 const reverseWay = (current_way) => {
     current_way.geometry = current_way.geometry.reverse()
     current_way.nodes = current_way.nodes.reverse()
 }
-const isNextWay = (last_way, current_way) => {
-    let res = last_way.nodes[last_way.nodes.length - 1] == current_way.nodes[0]
-    if (!res && current_way && current_way.tags && current_way.tags.oneway != "yes") {
-        reverseWay(current_way)
-        res = last_way.nodes[last_way.nodes.length - 1] == current_way.nodes[0]
+const normalizecurrentWay = (lastWay, currentWay) => {
+    const checkConnection = (a, b) => a.nodes[a.nodes.length - 1] == b.nodes[0]
+    let response = checkConnection(lastWay, currentWay)
+    if (!response && currentWay.tags.oneway != "yes") {
+        reverseWay(currentWay)
+        response = checkConnection(lastWay, currentWay)
     }
-    return res
+    return response
 }
-const isPreviousWay = (last_way, current_way) => {
-    let res = last_way.nodes[0] == current_way.nodes[current_way.nodes.length - 1]
-    if (!res && current_way && current_way.tags && current_way.tags.oneway != "yes") {
-        reverseWay(current_way)
-        res = last_way.nodes[0] == current_way.nodes[current_way.nodes.length - 1]
+const checkFirstWay = (lastWay, currentWay) => {
+    const checkConnection = (a, b) => a.nodes[a.nodes.length - 1] == b.nodes[0]
+    // a -> b == b -> c
+    let response = checkConnection(lastWay, currentWay)
+    if (!response && currentWay.tags.oneway != "yes") {
+        reverseWay(currentWay)
+        // a -> b == c -> b
+        response = checkConnection(lastWay, currentWay)
+        if (!response && lastWay.tags.oneway != "yes") {
+            reverseWay(lastWay)
+            // b -> c == c -> b
+            response = checkConnection(lastWay, currentWay)
+            if (!response && currentWay.tags.oneway != "yes") {
+                reverseWay(currentWay)
+                // b -> c == b -> c
+                response = checkConnection(lastWay, currentWay)
+            }
+        }
     }
-    return res
+    return response
 }
 module.exports = function (route_elements, ways) {
-    const way_res = []
-    let indexFirstOneWay
-    for (const index in route_elements.members) {
-        const element = route_elements.members[index]
+    const routeWays = []
+    for (const element of route_elements.members) {
         if (element.type == "way") {
-            let current_way = ways[element.ref]
-            if (current_way && current_way.tags && current_way.tags.oneway == "yes") {
-                indexFirstOneWay = index
-                break;
+            const current_way = ways[element.ref]
+            if (current_way == null) {
+                throw { extractor_error: extractor_error.way_not_exist, uri: `https://overpass-turbo.eu/?Q=${encodeURI(`//${extractor_error.way_not_exist}\nrel(${route_elements.id});out geom;way(${current_way.id});out geom;`)}&R` }
             }
+            routeWays.push({ ...current_way })
         }
     }
-    if (!indexFirstOneWay) {
-        throw { extractor_error: extractor_error.undefined, uri: `https://overpass-turbo.eu/?Q=${encodeURI(`//${extractor_error.undefined}\nrel(${route_elements.id});out geom;`)}&R` }
+    if (routeWays.length == 0) {
+        throw { extractor_error: extractor_error.route_with_empty_ways, uri: `https://overpass-turbo.eu/?Q=${encodeURI(`//${extractor_error.route_with_empty_ways}\nrel(${route_elements.id});out geom;`)}&R` }
     }
-    let last_way
-    let current_way
-    for (let index = indexFirstOneWay; index < route_elements.members.length; index++) {
-        last_way = current_way
-        let tmp_member = route_elements.members[index]
-        if (tmp_member.type == "way") {
-            current_way = Object.assign({}, ways[tmp_member.ref])
-            if (!last_way || isNextWay(last_way, current_way)) {
-                way_res.push(current_way)
-            } else {
-                throw { extractor_error: extractor_error.not_next, uri: `https://overpass-turbo.eu/?Q=${encodeURI(`//${extractor_error.not_next}\nrel(${route_elements.id});out geom;\nway(${last_way.id});out geom;out geom;\nway(${current_way.id});out geom;`)}&R` }
-            }
+
+    for (let index = 1; index < routeWays.length; index++) {
+        const lastWay = routeWays[index - 1]
+        const currentWay = routeWays[index]
+        if (lastWay.id == currentWay.id) {
+            throw { extractor_error: extractor_error.duplicated, uri: `https://overpass-turbo.eu/?Q=${encodeURI(`//${extractor_error.duplicated}\nrel(${route_elements.id});out geom;\nway(${lastWay.id});out geom;`)}&R` }
+        }
+        const checkCurrentWay = (index == 1) ? checkFirstWay(lastWay, currentWay) : normalizecurrentWay(lastWay, currentWay)
+        if (!checkCurrentWay) {
+            throw { extractor_error: extractor_error.not_next, uri: `https://overpass-turbo.eu/?Q=${encodeURI(`//${extractor_error.not_next}\nrel(${route_elements.id});out geom;\nway(${lastWay.id});out geom;\nway(${currentWay.id});out geom;`)}&R` }
         }
     }
-    current_way = way_res[0]
-    for (let index = indexFirstOneWay - 1; index >= 0; index--) {
-        last_way = current_way
-        let tmp_member = route_elements.members[index]
-        if (tmp_member.type == "way") {
-            current_way = Object.assign({}, ways[tmp_member.ref])
-            if (isPreviousWay(last_way, current_way)) {
-                way_res.unshift(current_way)
-            } else {
-                throw { extractor_error: extractor_error.not_next, uri: `https://overpass-turbo.eu/?Q=${encodeURI(`//${extractor_error.not_next}\nrel(${route_elements.id});out geom;\nway(${last_way.id});out geom;out geom;\nway(${current_way.id});out geom;`)}&R` }
-            }
-        }
-    }
+
     let tmp_nodes = []
     let tmp_stops = {}
     let tmp_pointss = []
-    way_res.forEach(element => {
+    routeWays.forEach(element => {
         for (const node_id of element.nodes) {
             const stop_id = String(node_id)
             const stop_name = element.tags && element.tags.name || ""

@@ -1,18 +1,12 @@
 {
   "name": "osm-public-transport-export",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "OSM Public Transport Export",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run bolivia",
-    "bolivia": "npm run bolivia:cochabamba && npm run bolivia:santacruz && npm run bolivia:lapaz && npm run bolivia:tarija",
-    "bolivia:cochabamba": "node ./examples/bolivia-cochabamba.js",
-    "bolivia:santacruz": "node ./examples/bolivia-santacruz.js",
-    "bolivia:lapaz": "node ./examples/bolivia-lapaz.js",
-    "ghana": "npm run ghana:accra",
-    "ghana:accra": "node ./examples/ghana-accra.js"
-  },
+  "files": [
+    "src/**/*"
+  ],
+  "scripts": {},
   "author": "Samuel Rioja",
   "license": "MIT",
   "engines": {
@@ -28,6 +22,9 @@
   "dependencies": {
     "@turf/boolean-equal": "^6.0.1",
     "@turf/helpers": "^6.1.4",
-    "debug": "^4.1.1"
+    "debug": "^4.1.1",
+    "osm-pbf-parser": "^2.3.0",
+    "pbf2json": "^6.9.0",
+    "through2": "^4.0.2"
   }
 }
