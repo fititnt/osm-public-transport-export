@@ -6,16 +6,7 @@
   "files": [
     "src/**/*"
   ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run bolivia",
-    "bolivia": "npm run bolivia:cochabamba && npm run bolivia:santacruz && npm run bolivia:lapaz && npm run bolivia:tarija",
-    "bolivia:cochabamba": "node ./examples/bolivia-cochabamba.js",
-    "bolivia:santacruz": "node ./examples/bolivia-santacruz.js",
-    "bolivia:lapaz": "node ./examples/bolivia-lapaz.js",
-    "ghana": "npm run ghana:accra",
-    "ghana:accra": "node ./examples/ghana-accra.js"
-  },
+  "scripts": {},
   "author": "Samuel Rioja",
   "license": "MIT",
   "engines": {
