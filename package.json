@@ -1,8 +1,11 @@
 {
   "name": "osm-public-transport-export",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "OSM Public Transport Export",
   "main": "index.js",
+  "files": [
+    "src/**/*"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run bolivia",
