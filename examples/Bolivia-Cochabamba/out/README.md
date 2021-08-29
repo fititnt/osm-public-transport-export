@@ -1,14 +1,14 @@
 ### Count
 **Total**: 470  **Correct**: 39  **With error**: 431
 
-### Bolivia-Cochabamba
+
 | Id | Name | Ref | From | To | State |
 | -- | ---- | --- | ---- | -- | ----- |
-[2084702](https://www.openstreetmap.org/relation/2084702) | Bus Carril: Cochabamba → Aiquile | undefined | Cochabamba | Aiquile | not controlled
-[2084719](https://www.openstreetmap.org/relation/2084719) | FFCC Cochabamba - Oruro | undefined | undefined | undefined | not controlled
+[2084702](https://www.openstreetmap.org/relation/2084702) | Bus Carril: Cochabamba → Aiquile | undefined | Cochabamba | Aiquile | TypeError: Cannot read property 'id' of undefined
+[2084719](https://www.openstreetmap.org/relation/2084719) | FFCC Cochabamba - Oruro | undefined | undefined | undefined | TypeError: Cannot read property 'id' of undefined
 [3572846](https://www.openstreetmap.org/relation/3572846) | Ruta Bicicleta Final Oeste América → Antiguo Molino Pihusi | undefined | Final Oeste América | Pihusi | [streets not sequential](https://overpass-turbo.eu/?Q=//streets%20not%20sequential%0Arel(3572846);out%20geom;%0Away(280418698);out%20geom;%0Away(552665862);out%20geom;&R)
 [3632233](https://www.openstreetmap.org/relation/3632233) | Teleférico Cristo de la Concordia | undefined | Parque de la Autonomía | Cristo de la Concordia | [route with empty ways](https://overpass-turbo.eu/?Q=//route%20with%20empty%20ways%0Arel(3632233);out%20geom;&R)
-[4462374](https://www.openstreetmap.org/relation/4462374) | lagunas | undefined | undefined | undefined | not controlled
+[4462374](https://www.openstreetmap.org/relation/4462374) | lagunas | undefined | undefined | undefined | TypeError: Cannot read property '0' of undefined
 [6551933](https://www.openstreetmap.org/relation/6551933) | undefined | undefined | undefined | undefined | [route with empty ways](https://overpass-turbo.eu/?Q=//route%20with%20empty%20ways%0Arel(6551933);out%20geom;&R)
 [6925236](https://www.openstreetmap.org/relation/6925236) | Teleférico: Parque de la Autonomía → Cristo de la Concordia | undefined | Parque de la Autonomía | Cristo de la Concordia | ✅
 [6925237](https://www.openstreetmap.org/relation/6925237) | Teleférico: Cristo de la Concordia → Parque de la Autonomía | undefined | Cristo de la Concordia | Parque de la Autonomía | ✅
@@ -19,7 +19,7 @@
 [9205299](https://www.openstreetmap.org/relation/9205299) | Ruta Trencito | undefined | undefined | undefined | ✅
 [9599571](https://www.openstreetmap.org/relation/9599571) | undefined | undefined | undefined | undefined | ✅
 [10002633](https://www.openstreetmap.org/relation/10002633) | Entrada Folklórica de la Festividad de la Virgen de Urkupiña | undefined | undefined | undefined | [streets not sequential](https://overpass-turbo.eu/?Q=//streets%20not%20sequential%0Arel(10002633);out%20geom;%0Away(722175922);out%20geom;%0Away(755797579);out%20geom;&R)
-[10150626](https://www.openstreetmap.org/relation/10150626) | Ruta BiciMontaña Aguirre → Incachaca → Paracti | undefined | Aguirre | Paracti | not controlled
+[10150626](https://www.openstreetmap.org/relation/10150626) | Ruta BiciMontaña Aguirre → Incachaca → Paracti | undefined | Aguirre | Paracti | TypeError: Cannot read property 'id' of undefined
 [10182096](https://www.openstreetmap.org/relation/10182096) | Ruta BiciMontaña Melga → Cerro Tuti | undefined | Melga | Cerro Tuti | ✅
 [10182124](https://www.openstreetmap.org/relation/10182124) | Ruta BiciMontaña Sacaba → Larati → Chiñata | undefined | Sacaba | Chiñata | [duplicated](https://overpass-turbo.eu/?Q=//duplicated%0Arel(10182124);out%20geom;%0Away(501243635);out%20geom;&R)
 [11678428](https://www.openstreetmap.org/relation/11678428) | FFCC Cochabamba - Sacaba | undefined | undefined | undefined | [streets not sequential](https://overpass-turbo.eu/?Q=//streets%20not%20sequential%0Arel(11678428);out%20geom;%0Away(851986128);out%20geom;%0Away(251454435);out%20geom;&R)
@@ -37,10 +37,10 @@
 [4443363](https://www.openstreetmap.org/relation/4443363) | MicroBus E: Avenida Circunvalación Beijing → Avenida Chacancalle | E | Avenida Circunvalación Beijing | Avenida Chacancalle | [streets not sequential](https://overpass-turbo.eu/?Q=//streets%20not%20sequential%0Arel(4443363);out%20geom;%0Away(275862657);out%20geom;%0Away(773014418);out%20geom;&R)
 [11103749](https://www.openstreetmap.org/relation/11103749) | Microbus F: La Maica Chica → Calle 2 | F | La Maica Chica | Calle 2 | [streets not sequential](https://overpass-turbo.eu/?Q=//streets%20not%20sequential%0Arel(11103749);out%20geom;%0Away(971866878);out%20geom;%0Away(971866876);out%20geom;&R)
 [11103802](https://www.openstreetmap.org/relation/11103802) | MicroBus F: Calle 2 → La Maica Chica | F | Calle 2 | La Maica Chica | [streets not sequential](https://overpass-turbo.eu/?Q=//streets%20not%20sequential%0Arel(11103802);out%20geom;%0Away(321077346);out%20geom;%0Away(321077343);out%20geom;&R)
-[5199782](https://www.openstreetmap.org/relation/5199782) | Ruta Nacional 23 | F23 | Aiquile | Paracaya (Cruce F7) | not controlled
-[2872578](https://www.openstreetmap.org/relation/2872578) | Ruta Nacional 25 | F25 | Unduavi (Cruce F3) | Quillacollo | not controlled
-[167835](https://www.openstreetmap.org/relation/167835) | Ruta Nacional 4 | F4 | Hito 18 (Front Chile Tambo Quemado) | Arroyo Concepción | not controlled
-[252466](https://www.openstreetmap.org/relation/252466) | Ruta Nacional 7 | F7 | Cochabamba | El Carmen (Cruce Ruta F9) | not controlled
+[5199782](https://www.openstreetmap.org/relation/5199782) | Ruta Nacional 23 | F23 | Aiquile | Paracaya (Cruce F7) | TypeError: Cannot read property 'id' of undefined
+[2872578](https://www.openstreetmap.org/relation/2872578) | Ruta Nacional 25 | F25 | Unduavi (Cruce F3) | Quillacollo | TypeError: Cannot read property 'id' of undefined
+[167835](https://www.openstreetmap.org/relation/167835) | Ruta Nacional 4 | F4 | Hito 18 (Front Chile Tambo Quemado) | Arroyo Concepción | TypeError: Cannot read property 'id' of undefined
+[252466](https://www.openstreetmap.org/relation/252466) | Ruta Nacional 7 | F7 | Cochabamba | El Carmen (Cruce Ruta F9) | TypeError: Cannot read property 'id' of undefined
 [5387552](https://www.openstreetmap.org/relation/5387552) | MicroBus G: Calle Alipio Valencia Vega → Avenida Arquímedes | G | Calle Alipio Valencia Vega | Avenida Arquímedes | [streets not sequential](https://overpass-turbo.eu/?Q=//streets%20not%20sequential%0Arel(5387552);out%20geom;%0Away(736749407);out%20geom;%0Away(924632503);out%20geom;&R)
 [5387555](https://www.openstreetmap.org/relation/5387555) | MicroBus G: Avenida Arquímedes → Calle Alipio Valencia Vega | G | Calle Avenida Arquímedes | Calle Alipio Valencia Vega | [streets not sequential](https://overpass-turbo.eu/?Q=//streets%20not%20sequential%0Arel(5387555);out%20geom;%0Away(895066625);out%20geom;%0Away(28734871);out%20geom;&R)
 [5457000](https://www.openstreetmap.org/relation/5457000) | MicroBus H: Avenida Chapare → Avenida Río Parapeti | H | Avenida Chapare | Avenida Río Parapeti | [streets not sequential](https://overpass-turbo.eu/?Q=//streets%20not%20sequential%0Arel(5457000);out%20geom;%0Away(926954869);out%20geom;%0Away(243528664);out%20geom;&R)
