@@ -45,7 +45,7 @@ module.exports = function ({ routes, ways, mapProperties, formatStopName }) {
             debug(`Error: ${error.extractor_error || error.message}`)
             log_file.push({
                 id: current_route.id,
-                error: error.extractor_error ? error : "not controlled",
+                error: error.extractor_error ? error : `${error}`,
                 tags: current_route.tags
             })
         }

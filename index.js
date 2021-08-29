@@ -1,5 +1,5 @@
-const OSMDownloader = require('./src/OSM_downloader')
-const OsmPbfReader = require('./src/OSM_pbf_reader')
+const OSMOverpassDownloader = require('./src/osm_getter/overpass_downloader')
+const OSMPBFReader = require('./src/osm_getter/pbf_reader')
 const convertGeoJSON = require('./src/OSM_dataTool')
 const fs = require('fs')
 const path = require('path')
@@ -61,6 +61,6 @@ async function osmToGeojson(options = {}) {
 
 module.exports = {
     osmToGeojson,
-    OSMDownloader,
-    OsmPbfReader
+    OSMOverpassDownloader,
+    OSMPBFReader
 }

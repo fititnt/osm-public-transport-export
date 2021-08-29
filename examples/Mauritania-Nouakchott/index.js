@@ -1,4 +1,4 @@
-const { osmToGeojson, OsmPbfReader, OSMDownloader } = require('../../')
+const { osmToGeojson, OSMOverpassDownloader } = require('../../')
 const fs = require('fs')
 const path = require('path')
 osmToGeojson({
@@ -10,7 +10,7 @@ osmToGeojson({
     }),
     stopNameSeparator: ' and ',
     stopNameFallback: 'unnamed',
-    osmDataGetter: new OSMDownloader({
+    osmDataGetter: new OSMOverpassDownloader({
         south: 17.958761,
         west: -16.025151,
         north: 18.192123,

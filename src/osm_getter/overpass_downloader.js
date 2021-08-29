@@ -1,5 +1,5 @@
 const http = require('http');
-module.exports = class OsmDownloader {
+module.exports = class OSMOverpassDownloader {
     bbox
     constructor(bounds) {
         if (!bounds) {

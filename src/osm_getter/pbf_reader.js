@@ -2,7 +2,7 @@ const fs = require('fs');
 const through = require('through2');
 const parseOSM = require('osm-pbf-parser');
 
-module.exports = class OsmPbfReader {
+module.exports = class OSMPBFReader {
     pbfPath
     constructor(pbfPath) {
         this.pbfPath = pbfPath
