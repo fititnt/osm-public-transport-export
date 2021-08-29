@@ -1,6 +1,6 @@
 {
   "name": "osm-public-transport-export",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "OSM Public Transport Export",
   "main": "index.js",
   "files": [
