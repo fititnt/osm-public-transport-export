@@ -28,6 +28,9 @@
   "dependencies": {
     "@turf/boolean-equal": "^6.0.1",
     "@turf/helpers": "^6.1.4",
-    "debug": "^4.1.1"
+    "debug": "^4.1.1",
+    "osm-pbf-parser": "^2.3.0",
+    "pbf2json": "^6.9.0",
+    "through2": "^4.0.2"
   }
 }

@@ -6,9 +6,9 @@ const routeExtractor = require('./route_extractor')
 module.exports = function ({ routes, ways, mapProperties, formatStopName }) {
     const stops = {}
     const geojson_features = []
-    let log_file = []
+    const log_file = []
 
-    for (let key in routes) {
+    for (const key in routes) {
         const current_route = routes[key]
         const name = current_route.tags.name
         debug(`Processing route ${name}`)

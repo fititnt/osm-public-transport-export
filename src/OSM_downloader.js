@@ -1,59 +1,61 @@
 const http = require('http');
+module.exports = class OsmDownloader {
+    bbox
+    constructor(bounds) {
+        if (!bounds) {
+            throw new Error('Missing bounds')
+        }
 
-function overpassRequest(query) {
-    return new Promise((resolve, reject) => {
-        const request = http.request({
-            method: 'POST',
-            host: 'www.overpass-api.de',
-            path: '/api/interpreter',
-        }, response => {
-            response.setEncoding('utf8');
+        if (typeof bounds !== "object" || bounds.north < bounds.south || bounds.east < bounds.west) {
+            throw new Error('Invalid bounds')
+        }
 
-            let data = '';
+        this.bbox = `${bounds.south},${bounds.west},${bounds.north},${bounds.east}`
+    }
+    overpassRequest = (query) => {
+        return new Promise((resolve, reject) => {
+            const request = http.request({
+                method: 'POST',
+                host: 'www.overpass-api.de',
+                path: '/api/interpreter',
+            }, response => {
+                response.setEncoding('utf8');
 
-            response.on('data', (chunk) => {
-              data += chunk;
+                let data = '';
+
+                response.on('data', (chunk) => {
+                    data += chunk;
+                });
+
+                response.on('end', () => {
+                    const parsedData = JSON.parse(data);
+                    resolve(parsedData);
+                });
             });
 
-            response.on('end', () => {
-                const parsedData = JSON.parse(data);
-                resolve(parsedData);
-            });
+            request.on('error', reject);
+            request.write(query);
+            request.end();
+        });
+    }
+
+    indexElementsById = (response) => {
+        const map = {};
+
+        response.elements.forEach(element => {
+            map[element.id] = element;
         });
 
-        request.on('error', reject);
-        request.write(query);
-        request.end();
-    });
+        return map;
+    }
+
+    getWays = () => {
+        const query = `[out:json];rel["type"="route"](${this.bbox});way(r);out geom;`;
+        return this.overpassRequest(query).then(this.indexElementsById);
+    }
+
+    getRoutes = () => {
+        const query = `[out:json];rel["type"="route"](${this.bbox});out body;`;
+        return this.overpassRequest(query).then(this.indexElementsById);
+    }
 }
-
-function indexElementsById(response) {
-    const map = {};
-
-    response.elements.forEach(element => {
-        map[element.id] = element;
-    });
-
-    return map;
-}
-
-function getAllWays(bbox) {
-    const query = `[out:json];way["highway"~"residential|primary|secondary|tertiary|trunk|trunk-link|service"](${bbox});out geom;`;
-    return overpassRequest(query).then(indexElementsById);
-}
-
-function getWays(bbox) {
-    const query = `[out:json];rel["type"="route"]["route"~"bus|share_taxi"](${bbox});way(r);out geom;`;
-    return overpassRequest(query).then(indexElementsById);
-}
-
-function getRoutes(bbox) {
-    const query = `[out:json];rel["type"="route"]["route"~"bus|share_taxi"](${bbox});out body;`;
-    return overpassRequest(query).then(indexElementsById);
-}
-
-module.exports = {
-    getAllWays,
-    getWays,
-    getRoutes,
-};

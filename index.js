@@ -1,10 +1,10 @@
-const { getWays, getRoutes } = require('./src/OSM_downloader')
+const OSMDownloader = require('./src/OSM_downloader')
+const OsmPbfReader = require('./src/OSM_pbf_reader')
 const convertGeoJSON = require('./src/OSM_dataTool')
 const fs = require('fs')
 const path = require('path')
 
 const defaultOptions = {
-    bounds: null,
     outputDir: null,
     geojsonFilename: 'routes.geojson',
     logFilename: 'log.json',
@@ -13,6 +13,7 @@ const defaultOptions = {
     stopNameFallback: 'Unnamed Street',
     formatStopName: function (names) { return names.join(this.stopNameSeparator) || this.stopNameFallback },
     mapProperties: function (tags) { return tags },
+    osmDataGetter: null
 }
 
 async function osmToGeojson(options = {}) {
@@ -24,9 +25,7 @@ async function osmToGeojson(options = {}) {
             options[key] = options[key].bind(options)
         }
     });
-
     const {
-        bounds,
         outputDir,
         geojsonFilename,
         logFilename,
@@ -35,12 +34,8 @@ async function osmToGeojson(options = {}) {
         mapProperties,
     } = options;
 
-    if (!bounds) {
-        throw new Error('Missing bounds')
-    }
-
-    if (typeof bounds !== "object" || bounds.north < bounds.south || bounds.east < bounds.west) {
-        throw new Error('Invalid bounds')
+    if (options.osmDataGetter == null) {
+        throw new Error('osmDataGetter missing')
     }
 
     if (outputDir !== null && typeof outputDir !== "string") {
@@ -51,9 +46,8 @@ async function osmToGeojson(options = {}) {
         throw new Error('Output directory does not exist')
     }
 
-    const bbox = `${bounds.south},${bounds.west},${bounds.north},${bounds.east}`
-    const routes = await getRoutes(bbox)
-    const ways = await getWays(bbox)
+    const routes = await options.osmDataGetter.getRoutes()
+    const ways = await options.osmDataGetter.getWays()
     const data = convertGeoJSON({ routes, ways, mapProperties, formatStopName })
 
     if (outputDir) {
@@ -65,4 +59,8 @@ async function osmToGeojson(options = {}) {
     return data
 }
 
-module.exports = osmToGeojson
+module.exports = {
+    osmToGeojson,
+    OSMDownloader,
+    OsmPbfReader
+}
