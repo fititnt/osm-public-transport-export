@@ -14,7 +14,8 @@ const defaultOptions = {
     stopNameFallback: 'Unnamed Street',
     formatStopName: function (names) { return names.join(this.stopNameSeparator) || this.stopNameFallback },
     mapProperties: function (tags) { return tags },
-    osmDataGetter: null
+    osmDataGetter: null,
+    transformTypes: ["bus", "share_taxi", "aerialway", "train", "subway", "monorail", "tram", "trolleybus", "ferry"]
 }
 
 function readmeGenerator(data) {
@@ -51,6 +52,7 @@ async function osmToGeojson(options = {}) {
         readmeFilename,
         formatStopName,
         mapProperties,
+        transformTypes,
     } = options;
 
     if (options.osmDataGetter == null) {
@@ -65,7 +67,7 @@ async function osmToGeojson(options = {}) {
         throw new Error('Output directory does not exist')
     }
 
-    const routes = await options.osmDataGetter.getRoutes()
+    const routes = await options.osmDataGetter.getRoutes(transformTypes)
     const ways = await options.osmDataGetter.getWays()
     const data = convertGeoJSON({ routes, ways, mapProperties, formatStopName })
     const readme = readmeGenerator(data)

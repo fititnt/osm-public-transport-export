@@ -8,9 +8,9 @@ module.exports = class OSMPBFReader {
         this.pbfPath = pbfPath
     }
 
-    getRoutes = (bbox) => {
+    getRoutes = (transformTypes) => {
         return this.loadData((item) => {
-            return item.type == "relation" && item.tags.type == "route"
+            return item.type == "relation" && item.tags.type == "route" && transformTypes.indexOf(item.tags.route) != -1
         }).then((routes) => {
             for (const route of routes) {
                 for (const member of route.members) {
@@ -20,7 +20,7 @@ module.exports = class OSMPBFReader {
             return routes
         }).then(this.indexElementsById);
     }
-    getWays = (bbox) => {
+    getWays = () => {
         return this.loadData((item) => {
             return item.type == "way"
         }).then((ways) => {

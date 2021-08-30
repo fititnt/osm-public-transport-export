@@ -54,8 +54,12 @@ module.exports = class OSMOverpassDownloader {
         return this.overpassRequest(query).then(this.indexElementsById);
     }
 
-    getRoutes = () => {
-        const query = `[out:json];rel["type"="route"](${this.bbox});out body;`;
+    getRoutes = (transformTypes) => {
+        let routesFilter = ""
+        if (transformTypes.length > 0) {
+            routesFilter = `["route"~"${transformTypes.join("|")}"]`
+        }
+        const query = `[out:json];rel["type"="route"]${routesFilter}(${this.bbox});out body;`;
         return this.overpassRequest(query).then(this.indexElementsById);
     }
 }
