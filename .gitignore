@@ -1,3 +1,4 @@
 node_modules
 .DS_Store
 osm-public-transport-export-1.0.0.tgz
+yarn.lock
