@@ -18,10 +18,23 @@ osmToGeojson({
     // })
     // https://nominatim.openstreetmap.org/search?q=Recife,Pernambuco&format=geojson
     osmDataGetter: new OSMOverpassDownloader({
-        south: -35.0186478,
-        west: -8.1551869,
-        north: -34.8515401,
-        east: -7.928967
+        south: -8.1551869,
+        west: -35.0186478,
+        north: -7.928967,
+        east: -34.8515401
     })
+    // https://nominatim.openstreetmap.org/search?q=Porto%20Alegre,Brazil&format=geojson
+    // "bbox": [
+    //     -51.3034404,
+    //     -30.2694499,
+    //     -51.0188522,
+    //     -29.9324744
+    //   ],
+    // osmDataGetter: new OSMOverpassDownloader({
+    //     south: -30.2694499,
+    //     west: -51.3034404,
+    //     north: -29.9324744,
+    //     east: -51.0188522
+    // })
 })
     .catch(error => console.error(error))
